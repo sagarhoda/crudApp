@@ -4,15 +4,21 @@ import App from './components/App.jsx';
 import AddNames from './components/AddNames.jsx';
 import ReadNames from './components/ReadNames.jsx';
 import NotFound from './components/NotFound.jsx';
+import routes from './components/routes.js';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
+const store = createStore(
+	(state = {}) => state,
+	applyMiddleware(thunk)
+);
+
 ReactDOM.render(
-	<Router history={ browserHistory }>
-      <Route path="/" component={ App }>
-				<IndexRoute component= { ReadNames } />
-				<Route path="/add-names" component={ AddNames } />
-				<Route path="*" component={ NotFound } />
-      </Route>
-    </Router>
+	<Provider store={store}>
+	<Router history={ browserHistory } routes={routes}>
+  </Router>
+	</Provider>
 	, document.getElementById('app')
 );
